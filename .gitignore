@@ -5,4 +5,4 @@ downloads/
 output/
 vgg16*/
 .DS_Store
-__pychache__/
+__pycache__/
