@@ -4,11 +4,13 @@ RUN apt-get update && \
     apt-get install -y language-pack-ja-base \
                        language-pack-ja \
                        vim \
-                       tmux
+                       tmux \
+                       htop
 ENV LANG=ja_JP.UTF-8
 
 RUN pip install --upgrade pip \
                 keras \
+                logzero \
                 flake8
 
 # TensorBoard
