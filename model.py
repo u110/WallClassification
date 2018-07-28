@@ -30,11 +30,11 @@ def vgg_based_model(input_shape, n_categories, fulltraining = False):
     #add new layers instead of FC networks
     x=base_model.output
     x=GlobalAveragePooling2D()(x)
-    x=Dense(1024,kernel_regularizer=regularizers.l2(0.000001),activity_regularizer=regularizers.l1(0.000001))(x)
+    x=Dense(1024)(x)
     x=BatchNormalization()(x)
     x=Activation("relu")(x)
     x=Dropout(0.5)(x)
-    x=Dense(1024,kernel_regularizer=regularizers.l2(0.000001),activity_regularizer=regularizers.l1(0.000001))(x)
+    x=Dense(1024)(x)
     x=BatchNormalization()(x)
     x=Activation("relu")(x)
     x=Dropout(0.5)(x)
@@ -110,10 +110,11 @@ if __name__ == "__main__":
     #訓練(中断しても続きから継続できる)
     hist=model.fit_generator(
         train_generator,
-        epochs=200,
+        epochs=30,
         initial_epoch=cf.load_epoch_init(file_name),
         # use_multiprocessing=True,
         verbose=1,
+        workers=8,
         validation_data=validation_generator,
         class_weight=class_weight,
         callbacks=[
