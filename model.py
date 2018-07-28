@@ -42,9 +42,13 @@ def vgg_based_model(input_shape, n_categories, fulltraining = False):
     model=Model(inputs=base_model.input,outputs=prediction)
 
     if not fulltraining:
-        # fix weights before VGG16 14layers
-        for layer in base_model.layers[:15]:
-            layer.trainable=False
+        # fix weights
+        for layer in base_model.layers:
+            layer.trainable = False
+        # fix last layers
+        # https://qiita.com/hayatoy/items/d8a511d3fd03576f0da2#%E5%86%8D%E5%AD%A6%E7%BF%92%E7%94%A8%E3%81%AEdense%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC%E3%82%92%E5%8A%A0%E3%81%88%E3%82%8B  # noqa
+        base_model.layers[-1].trainable = True
+        base_model.layers[-2].trainable = True
     return model
 
 import argparse
