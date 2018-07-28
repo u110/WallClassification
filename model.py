@@ -19,13 +19,16 @@ import continue_fit as cf
 from keras.utils import multi_gpu_model
 from keras import regularizers
 
-def vgg_based_model(input_shape, n_categories, fulltraining = False):
+def get_based_model(input_shape, n_categories, fulltraining=False, base_model_cls=VGG16):
     """
     VGG16をベースにした転移学習モデルを生成する。
     fulltraining: Trueにすると、ベースモデルも含めて訓練可能にする。訓練速度が非常に遅くなる。
     """
-    base_model=VGG16(weights='imagenet',include_top=False,
-                    input_tensor=Input(shape=input_shape))
+    base_model = base_model_cls(
+            weights='imagenet',
+            include_top=False,
+            input_tensor=Input(shape=input_shape)
+    )
 
     #add new layers instead of FC networks
     x=base_model.output
@@ -46,9 +49,9 @@ def vgg_based_model(input_shape, n_categories, fulltraining = False):
         for layer in base_model.layers:
             layer.trainable = False
         # fix last layers
-        # https://qiita.com/hayatoy/items/d8a511d3fd03576f0da2#%E5%86%8D%E5%AD%A6%E7%BF%92%E7%94%A8%E3%81%AEdense%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC%E3%82%92%E5%8A%A0%E3%81%88%E3%82%8B  # noqa
+        # https://qiita.com/hayatoy/items/d8a511d3fd03576f0da2
         base_model.layers[-1].trainable = True
-        base_model.layers[-2].trainable = True
+
     return model
 
 import argparse
@@ -104,7 +107,7 @@ if __name__ == "__main__":
         shuffle=True
     )
 
-    model = vgg_based_model(input_shape, n_categories)
+    model = get_based_model(input_shape, n_categories)
     # parallel_model = multi_gpu_model(model, gpus=2)   #マルチGPUを使うときはこちら
 
     model.compile(optimizer=Adam(lr=1e-3),
