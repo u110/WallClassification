@@ -26,11 +26,23 @@ class ModelFactory:
 
     MODELS = {
             "vgg16": keras.applications.vgg16.VGG16,
+            "vgg19": keras.applications.vgg19.VGG19,
             "resnet50": keras.applications.resnet50.ResNet50,
+            "inception_v3": keras.applications.inception_v3.InceptionV3,
+            "mobilenet": keras.applications.mobilenet.MobileNet,
+            "densenet": keras.applications.densenet.DenseNet201,
+            "xception": keras.applications.xception.Xception,
+            "nasnet": keras.applications.nasnet.NASNetLarge,
     }
     PREPROCESS_INPUT = {
             "vgg16": keras.applications.vgg16.preprocess_input,
-            "resnet50": keras.applications.resnet50.preprocess_input
+            "vgg19": keras.applications.vgg19.preprocess_input,
+            "resnet50": keras.applications.resnet50.preprocess_input,
+            "inception_v3": keras.applications.inception_v3.preprocess_input,
+            "mobilenet": keras.applications.mobilenet.preprocess_input,
+            "densenet": keras.applications.densenet.preprocess_input,
+            "xception": keras.applications.xception.preprocess_input,
+            "nasnet": keras.applications.nasnet.preprocess_input,
     }
 
     @classmethod
