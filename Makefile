@@ -2,7 +2,7 @@ model-name:=test-model
 base-model-name:=vgg16
 
 model:
-	python models.py $(model-name) -b $(base-model-name)
+	python model.py $(model-name) -b $(base-model-name)
 
 base-models:= \
 	vgg16 \
@@ -17,4 +17,4 @@ base-models:= \
 models-with-base: $(base-models:%=train-with/%)
 
 train-with/%:
-	python models.py $(model-name)_$(@F) -b $(@F)
+	python model.py $(model-name)_$(@F) -b $(@F)
